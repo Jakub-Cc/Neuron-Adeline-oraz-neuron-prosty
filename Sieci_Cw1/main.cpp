@@ -20,7 +20,6 @@ int main()
 	double ciag_uczacy_unipolar[4][3] = { { 1,1,0 } ,{ 1,0,1 } ,{ 1,1,1 } ,{ 1,0,0 } };
 	double ciag_wynikow_unipolar[4] = { 0,0,1,0 };
 	
-	//problem z konwersja danych
 	double ** ciag_unipolar = new double*[4];	
 	double ** ciag_bipolar = new double*[4];
 	for (int i = 0;i < 4;i++)
