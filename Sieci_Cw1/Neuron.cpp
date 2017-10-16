@@ -1,5 +1,5 @@
 #include "Neuron.h"
-
+#include <cmath>
 
 
 Neuron::Neuron()
@@ -9,6 +9,8 @@ Neuron::Neuron()
 
 Neuron::~Neuron()
 {
+	delete[] wagi;
+	//delete wagi;
 }
 
 Neuron::Neuron(int ile_wejsc, double wartosc_uczaca,double min_wag, double max_wag)
@@ -68,7 +70,7 @@ double Neuron::uczenie(double * wejscie, double oczekiwane, double zakres_bledu)
 {
 	std::cout << "Uczenie wzorca: wej: " << wejscie[0] << " " << wejscie[1] << " " << wejscie[2] << "\n";
 	std::cout << "Uczenie wzorca: oczekiwana: " << oczekiwane << "\n";
-
+	std::cout << "Uczenie wzorca: otrzymana: " << Wyjscie ( wejscie ) << "\n";
 	double blad = oczekiwane - Wyjscie(wejscie);
 	if (blad > zakres_bledu || blad < -zakres_bledu)
 	{
@@ -83,19 +85,23 @@ double Neuron::uczenie(double * wejscie, double oczekiwane, double zakres_bledu)
 	return blad;
 }
 
-int Neuron::epoki(double ** wejscie, double * oczekiwane, int ile_ciagow, double zakres_bledu) //trzeba przeciazyc dla adeline?
+int Neuron::epoki(double ** wejscie, double * oczekiwane, int ile_ciagow, double zakres_bledu) //trzeba przeciazyc dla adaline
 {
 	int epoka = 0;
 	bool stop = false;
-	int *ciag_uzyty;
+	int *ciag_uzyty = new int[ile_ciagow] ();
 	int ciag;
+
 	while (!stop)
 	{
 		epoka++;
 		std::cout << "\n: " << epoka << "\n";
 		std::cout << "Wagi: " << wagi[0] << " " << wagi[1] << " " << wagi[2] << "\n";
-
-		ciag_uzyty = new int[ile_ciagow]();
+		for ( int i = 0; i < ile_ciagow; i++ )
+		{
+			ciag_uzyty[i] = 0;
+		}
+		
 		stop = true;
 		for (int i = 0; i < ile_ciagow; i++) 
 		{
@@ -114,7 +120,7 @@ int Neuron::epoki(double ** wejscie, double * oczekiwane, int ile_ciagow, double
 			}
 		}
 	}
-
+	delete [] ciag_uzyty;
 	
 	//std::cout << "\n: " << epoka << "\n";
 	return epoka;
@@ -145,11 +151,52 @@ int Neuron::epoki_srednia_bl(double ** wejscie, double * oczekiwane, int ile_cia
 			ciag_uzyty[ciag] = 1;
 
 			double blad = uczenie(wejscie[ciag], oczekiwane[ciag], zakres_bledu);
-			suma_bledow += blad;
+			suma_bledow += std::abs(blad);
 		}
 		suma_bledow = suma_bledow /(double) ile_ciagow ;
 	}
 
+	//std::cout << "\n: " << epoka << "\n";
+	return epoka;
+}
+
+int Neuron::epoki_srednia_bl_wali ( double ** wejscie, double * oczekiwane, int ile_ciagow, double zakres_bledu, int max_epok, double ** walidacja, double * walidacja_oczekiwane )
+{
+	int epoka = 0;
+	int *ciag_uzyty = new int[ile_ciagow] ();
+	int ciag;
+	double suma_bledow = 10000;
+	while ( suma_bledow > zakres_bledu && epoka< max_epok )
+	{
+		suma_bledow = 0;
+		epoka++;
+		std::cout << "\n: " << epoka << "\n";
+		//std::cout << "Wagi: " << wagi[0] << " " << wagi[1] << " " << wagi[2] << "\n";
+		for ( int i = 0; i < ile_ciagow; i++ )
+		{
+			ciag_uzyty[i] = 0;
+		}
+		for ( int i = 0; i < ile_ciagow; i++ )
+		{
+			ciag = pom.r_int ( 0, ile_ciagow );
+
+			while ( i < ile_ciagow && ciag_uzyty[ciag] == 1 )
+			{
+				ciag = pom.r_int ( 0, ile_ciagow );
+			}
+			ciag_uzyty[ciag] = 1;
+
+			double blad = uczenie ( wejscie[ciag], oczekiwane[ciag], zakres_bledu );
+			suma_bledow += std::abs ( blad );
+		}
+		double pom_walidacja = 0;
+		for ( int i = 0; i < ile_ciagow; i++ )
+		{
+			pom_walidacja += std::abs ( walidacja_oczekiwane[i] - Wyjscie ( walidacja[i] ));
+		}
+		suma_bledow = pom_walidacja / (double) ile_ciagow;
+	}
+	delete[] ciag_uzyty;
 	//std::cout << "\n: " << epoka << "\n";
 	return epoka;
 }
@@ -170,4 +217,13 @@ void Neuron::test(double a, double b) //trzeba preciazyc dla kazdego (bipolarneg
 
 	test[1] = -a; test[2] = b;
 	std::cout << -a << " " << b << " wynik: " << Wyjscie(Net(test)) << "\n";
+
+	test[1] = -1; test[2] = 1;
+	std::cout << -1 << " " << 1 << " wynik: " << Wyjscie ( Net ( test ) ) << "\n";
+	test[1] = -1; test[2] = -1;
+	std::cout << -1 << " " << -1 << " wynik: " << Wyjscie ( Net ( test ) ) << "\n";
+	test[1] = 1; test[2] = 1;
+	std::cout << 1 << " " << 1 << " wynik: " << Wyjscie ( Net ( test ) ) << "\n";
+	test[1] = 1; test[2] = -1;
+	std::cout << 1 << " " << -1 << " wynik: " << Wyjscie ( Net ( test ) ) << "\n";
 }

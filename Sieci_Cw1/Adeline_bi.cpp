@@ -18,13 +18,14 @@ double Adeline_bi::uczenie(double * wejscie, double oczekiwane, double zakres_bl
 
 	std::cout << "Uczenie wzorca: wej: " << wejscie[0] << " " << wejscie[1] << " " << wejscie[2] << "\n";
 	std::cout << "Uczenie wzorca: oczekiwana: " << oczekiwane << " net: " << net << "\n";
-
+	std::cout << "Uczenie wzorca: korekcja wag: ";
 	for (int i = 0; i < ilosc_wejsc; i++)
 	{
-		wagi[i] += war_uczaca*(oczekiwane - net)*wejscie[i];
+		std::cout << war_uczaca * 2 * ( oczekiwane - net )*wejscie[i] << " ";
+		wagi[i] += war_uczaca*2*(oczekiwane - net)*wejscie[i];
 	}
-
-	std::cout << "Uczenie wzorca: blad: " << blad <<", korekcja: "<< (oczekiwane - net) << "\n";
+	std::cout << "\n";
+	std::cout << "Uczenie wzorca: blad: " << blad << ", korekcja: " << war_uczaca * 2 * ( oczekiwane - net ) << "\n";
 	std::cout << "Uczenie wzorca: wagi po ucz: " << wagi[0] << " " << wagi[1] << " " << wagi[2] << "\n";
 
 	std::cout << std::showpos << "Krzywa: y=" << -wagi[1] / wagi[2] << "x" << -wagi[0] / wagi[2] << std::noshowpos << '\n';

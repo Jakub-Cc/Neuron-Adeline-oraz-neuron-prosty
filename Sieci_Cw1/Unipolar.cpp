@@ -41,4 +41,14 @@ void Unipolar::test(double a, double b)
 
 	test[1] = 1-a; test[2] = b;
 	std::cout << 1-a << " " << b << " wynik: " << Wyjscie(Net(test)) << "\n";
+
+	test[1] = 0; test[2] = 1;
+	std::cout << 0 << " " << 1 << " wynik: " << Wyjscie ( Net ( test ) ) << "\n";
+	test[1] = 0; test[2] = 0;
+	std::cout << 0 << " " << 0 << " wynik: " << Wyjscie ( Net ( test ) ) << "\n";
+	test[1] = 1; test[2] = 1;
+	std::cout << 1<< " " << 1 << " wynik: " << Wyjscie ( Net ( test ) ) << "\n";
+	test[1] = 1; test[2] = 0;
+	std::cout << 1 << " " << 0 << " wynik: " << Wyjscie ( Net ( test ) ) << "\n";
+
 }
