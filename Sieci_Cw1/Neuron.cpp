@@ -9,7 +9,7 @@ Neuron::Neuron()
 
 Neuron::~Neuron()
 {
-	delete[] wagi;
+	delete [] wagi;
 	//delete wagi;
 }
 
@@ -34,7 +34,7 @@ void Neuron::gereruj_wagi(double min_wag, double max_wag)
 	{
 		wagi[i] = pom.r_db(min_wag, max_wag);
 	}
-	//std::cout << "Wagi poczatkowe: " << wagi[0] << " " << wagi[1] << " " << wagi[2] << "\n";
+	std::cout << "Wagi poczatkowe: " << wagi[0] << " " << wagi[1] << " " << wagi[2] << "\n";
 }
 
 double Neuron::Net(double * wejcie)
@@ -79,7 +79,7 @@ double Neuron::uczenie(double * wejscie, double oczekiwane, double zakres_bledu)
 			wagi[i] += war_uczaca*blad*wejscie[i];
 		}
 	}
-	std::cout << "Uczenie wzorca: blad: " << blad << "\n";
+	//std::cout << "Uczenie wzorca: blad: " << blad << "\n";
 	std::cout << "Uczenie wzorca: wagi po ucz: " << wagi[0] << " " << wagi[1] << " " << wagi[2] << "\n";
 	std::cout << std::showpos << "Krzywa: y=" << -wagi[1] / wagi[2] << "x" << -wagi[0] / wagi[2] << std::noshowpos << '\n';
 	return blad;
@@ -170,8 +170,8 @@ int Neuron::epoki_srednia_bl_wali ( double ** wejscie, double * oczekiwane, int 
 	{
 		suma_bledow = 0;
 		epoka++;
-		std::cout << "\n: " << epoka << "\n";
-		//std::cout << "Wagi: " << wagi[0] << " " << wagi[1] << " " << wagi[2] << "\n";
+		std::cout << "\n: " << epoka << "";
+		std::cout << "   Wagi: " << wagi[0] << " " << wagi[1] << " " << wagi[2] << "\n";
 		for ( int i = 0; i < ile_ciagow; i++ )
 		{
 			ciag_uzyty[i] = 0;

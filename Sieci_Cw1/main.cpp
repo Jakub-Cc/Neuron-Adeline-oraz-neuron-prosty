@@ -77,71 +77,81 @@ int main()
 	double b = 0.99;
 	double test[3] = { 1.0, a, b };
 
-	Adeline_bi Abi;
-	Neuron bi;
+	Adeline_bi *Abi;
+	Neuron *bi;
+	Tools pom;
+	//for (int i=0; i<100; i++ )
 	
+	//std::cout << pom.r_db ( -1, 1 )<<"\n";
+
 	if ( 0 ) //perceptron bipolarny xor
 	{
 		std::cout << "perceptron bipolarny\n";
-		bi = Neuron ( 3, 0.2, -0.01, 0.01 );
-		bi.epoki_srednia_bl_wali ( ciag_bipolar_xor, ciag_wynikow_xor_bipolar, ile_ciagow, 0.5, 100, ciag_bipolar_xor, ciag_wynikow_xor_bipolar);
-		bi.test ( a, b );
+		bi =new Neuron ( 3, 0.2, -0.01, 0.01 );
+		bi->epoki_srednia_bl_wali ( ciag_bipolar_xor, ciag_wynikow_xor_bipolar, ile_ciagow, 0.5, 100, ciag_bipolar_xor, ciag_wynikow_xor_bipolar);
+		bi->test ( a, b );
 		std::cout << "\n";
+		delete bi;
 	}
 
 	if (0) //perceptron bipolarny
 	{ 
 		std::cout << "perceptron bipolarny\n";
-		bi= Neuron(3, 0.9, -1, 1);
+		bi= new Neuron(3, 0.9, -1, 1);
 		//bi.epoki(ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0);
-		bi.epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0, 100, ciag_bipolar_walidacja, ciag_wynikow_bipolar_walidacja );
-		bi.test(a, b);
+		bi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0, 100, ciag_bipolar_walidacja, ciag_wynikow_bipolar_walidacja );
+		bi->test(a, b);
 		std::cout << "\n";
+		delete bi;
 	}
 	if (0) //adeline bipolarny
 	{
 		std::cout << "adeline bipolarny\n";
-		Abi = Adeline_bi(3, 0.01 , -0.01, 0.01);
+		Abi = new Adeline_bi(3, 0.01 , -0.01, 0.01);
 		//Abi.epoki(ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0.2);
 		//Abi.epoki_srednia_bl(ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0.4, 500);
-		Abi.epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, 200, ciag_bipolar_walidacja, ciag_wynikow_bipolar_walidacja );
+		Abi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, 200, ciag_bipolar_walidacja, ciag_wynikow_bipolar_walidacja );
 
-		Abi.test(a, b);
+		Abi->test(a, b);
 		std::cout << "\n";
+		delete Abi;
 	}
 
-	Unipolar uni;
-	Adeline_uni Auni;
+	Unipolar * uni;
+	Adeline_uni * Auni;
 	if ( 0) //perceptron unipolarny xor
 	{
 		std::cout << "perceptron unipolarny\n";
-		uni = Unipolar ( 3, 0.2, -0.01, 0.01 );
-		uni.epoki_srednia_bl ( ciag_unipolar_xor, ciag_wynikow_xor_unipolar, ile_ciagow, 0.20, 100 );
+		uni =new Unipolar ( 3, 0.2, -0.01, 0.01 );
+		uni->epoki_srednia_bl ( ciag_unipolar_xor, ciag_wynikow_xor_unipolar, ile_ciagow, 0.20, 100 );
 		std::cout << "\n";
-		uni.test ( a, b );
+		uni->test ( a, b );
+		delete uni;
 	}
 
 	if (0) //perceptron unipolarny
 	{
 		std::cout << "perceptron unipolarny\n";
-		uni= Unipolar(3, 0.2, -0.01, 0.01);
+		uni= new Unipolar(3, 0.2, -0.01, 0.01);
 		//uni.epoki(ciag_unipolar, ciag_wynikow_unipolar, ile_ciagow, 0);
-		uni.epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, 50, ciag_unipolar_walidacja, ciag_wynikow_unipolar_walidacja );
+		uni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, 50, ciag_unipolar_walidacja, ciag_wynikow_unipolar_walidacja );
 
 		std::cout << "\n";
-		uni.test(a, b);
+		uni->test(a, b);
+		delete uni;
 	}
 
 	if (0) //adeline unipolarny
 	{
 		std::cout << "adeline unipolarny\n";
-		Auni =  Adeline_uni(3, 0.2, -0.1, 0.1);
+		Auni = new Adeline_uni(3, 0.2, 1, 1);
 		//Auni.epoki(ciag_unipolar, ciag_wynikow_unipolar, ile_ciagow, 0.10);
 		//Auni.epoki_srednia_bl(ciag_unipolar, ciag_wynikow_unipolar, ile_ciagow, 0.2, 100);
-		Auni.epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, 100, ciag_unipolar, ciag_wynikow_unipolar);
+		Auni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, 100, ciag_unipolar, ciag_wynikow_unipolar);
 
 		std::cout << "\n";
-		Auni.test(a, b);
+		Auni->test(a, b);
+		delete Auni;
 	}
 	if ( 1 ) //badania z srednia i wariancja
 	{
@@ -168,14 +178,14 @@ int main()
 		double nie_naucz_abi[ilosc_war_uczacych][ilosc_war_max]; 
 		double nie_naucz_auni[ilosc_war_uczacych][ilosc_war_max];
 
-		int ilosc_powt = 1000;
+		int ilosc_powt = 10000;
 
 		double* ilosc_epok_w_powtorzeniu_bi = new double[ilosc_powt] ();
 		double* ilosc_epok_w_powtorzeniu_uni = new double[ilosc_powt] ();
 		double* ilosc_epok_w_powtorzeniu_abi = new double[ilosc_powt] ();
 		double* ilosc_epok_w_powtorzeniu_auni = new double[ilosc_powt] ();
 
-		int ile_max_epok = 2000;
+		int ile_max_epok = 10000;
 
 		for ( int i = 0; i < ilosc_war_uczacych; i++ )
 		{
@@ -204,53 +214,57 @@ int main()
 				for ( int k = 0; k < ilosc_powt; k++ )
 				{
 
-					if ( 0 )
+					if ( 1 )
 					{
-						uni = Unipolar(3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j]);
+						uni = new Unipolar(3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j]);
 						//ilosc_epok_w_powtorzeniu_uni[k] = uni.epoki ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0  );
-						ilosc_epok_w_powtorzeniu_uni[k] = uni.epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, ile_max_epok, ciag_unipolar, ciag_wynikow_unipolar );
+						ilosc_epok_w_powtorzeniu_uni[k] = uni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, ile_max_epok, ciag_unipolar, ciag_wynikow_unipolar );
 						if ( ile_max_epok == ilosc_epok_w_powtorzeniu_uni[k] )
 						{
 							nie_naucz_uni[i][j]++;
 						}
 						srednie_epok_uni[i][j] += ilosc_epok_w_powtorzeniu_uni[k] / ilosc_powt;
+						delete uni;
 					}
-					if ( 0 )
+					if ( 1 )
 					{
-						bi = Neuron(3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j]);
+						bi = new Neuron(3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j]);
 						//ilosc_epok_w_powtorzeniu_bi[k] = bi.epoki ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0 );
-						ilosc_epok_w_powtorzeniu_bi[k]= bi.epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, ile_max_epok, ciag_bipolar, ciag_wynikow_bipolar );
+						ilosc_epok_w_powtorzeniu_bi[k]= bi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, ile_max_epok, ciag_bipolar, ciag_wynikow_bipolar );
 						if ( ile_max_epok == ilosc_epok_w_powtorzeniu_bi[k] )
 						{
 							nie_naucz_bi[i][j]++;
 							std::cout.rdbuf ( cout_sbuf );
-							std::cout << bi.wagi[0] <<" "<< bi.wagi[1] << " " << bi.wagi[2] << '\n';
+							//std::cout << bi.wagi[0] <<" "<< bi.wagi[1] << " " << bi.wagi[2] << '\n';
 							std::cout.rdbuf ( NULL );
 						}
 						srednie_epok_bi[i][j] += ilosc_epok_w_powtorzeniu_bi[k] / ilosc_powt;
+						delete bi;
 					}
 					if ( 1 )
 					{
-						Auni = Adeline_uni ( 3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j] );
+						Auni = new Adeline_uni ( 3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j] );
 						//ilosc_epok_w_powtorzeniu_auni[k] = Auni.epoki_srednia_bl ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0.2, 100 );
-						ilosc_epok_w_powtorzeniu_auni[k] = Auni.epoki_srednia_bl_wali ( ciag_unipolar_walidacja, ciag_wynikow_unipolar_walidacja, 4, 0, ile_max_epok, ciag_unipolar, ciag_wynikow_unipolar );
+						ilosc_epok_w_powtorzeniu_auni[k] = Auni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, ile_max_epok, ciag_unipolar, ciag_wynikow_unipolar );
 						if ( ile_max_epok == ilosc_epok_w_powtorzeniu_auni[k] )
 						{
 							nie_naucz_auni[i][j]++;
 						}
 						srednie_epok_ad_uni[i][j] += ilosc_epok_w_powtorzeniu_auni[k] / ilosc_powt;
+						delete Auni;
 						
 					}
-					if ( 0 )
+					if ( 1 )
 					{
-						Abi = Adeline_bi(3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j]);
+						Abi =new Adeline_bi(3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j]);
 						//ilosc_epok_w_powtorzeniu_abi[k] = Abi.epoki_srednia_bl ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0.4, 100 );
-						ilosc_epok_w_powtorzeniu_abi[k] = Abi.epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, ile_max_epok, ciag_bipolar, ciag_wynikow_bipolar );
+						ilosc_epok_w_powtorzeniu_abi[k] = Abi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, ile_max_epok, ciag_bipolar, ciag_wynikow_bipolar );
 						if ( ile_max_epok == ilosc_epok_w_powtorzeniu_abi[k] )
 						{
 							nie_naucz_abi[i][j]++;
 						}
 						srednie_epok_ad_bi[i][j] += ilosc_epok_w_powtorzeniu_abi[k] / ilosc_powt;
+						delete Abi;
 					}
 				}
 
@@ -264,6 +278,7 @@ int main()
 			}
 		}
 		std::cout.rdbuf ( cout_sbuf );
+
 		if ( 1 )
 		{
 			//zapis do pliku
