@@ -10,10 +10,10 @@
 #include <vector>
 #include <sstream>
 
-int main()
+int main ()
 {
-	srand((unsigned int)time(NULL));
-	
+	srand ( (unsigned int) time ( NULL ) );
+
 	int ile_ciagow = 4;
 	double ciag_uczacy_bipolar[4][3] = { { 1,1,-1 } ,{ 1,-1,1 } ,{ 1,1,1 } ,{ 1,-1,-1 } };
 	double ciag_wynikow_bipolar[4] = { -1,-1,1,-1 };
@@ -33,15 +33,15 @@ int main()
 	double ciag_uczacy_xor_unipolar[4][3] = { { 1,1,0 } ,{ 1,0,1 } ,{ 1,1,1 } ,{ 1,0,0 } };
 	double ciag_wynikow_xor_unipolar[4] = { 1,1,0,0 };
 
-	
+
 	//konwersja danych
-	double ** ciag_unipolar = new double*[4];	
+	double ** ciag_unipolar = new double*[4];
 	double ** ciag_bipolar = new double*[4];
 	double ** ciag_unipolar_xor = new double*[4];
 	double ** ciag_bipolar_xor = new double*[4];
 	double ** ciag_bipolar_walidacja = new double*[4];
 	double ** ciag_unipolar_walidacja = new double*[4];
-	for (int i = 0;i < 4;i++)
+	for ( int i = 0; i < 4; i++ )
 	{
 		ciag_bipolar[i] = new double[3];
 		ciag_bipolar[i][0] = ciag_uczacy_bipolar[i][0];
@@ -80,15 +80,268 @@ int main()
 	Adeline_bi *Abi;
 	Neuron *bi;
 	Tools pom;
-	//for (int i=0; i<100; i++ )
+
+	double wartosci_unipolarne_1[10] = { -0.02, -0.01, 0, 0.01, 0.02, 0.98, 0.99, 1, 1.01, 1.02 };
+	double wartosci_unipolarne_2[10] = { 0, 0.01, 0.02, 0.03, 0.04, 0.96, 0.97, 0.98, 0.99, 1 };
+	double wartosci_bipolarne_1[10] = { -0.98, -0.99, -1, -1.01, -1.02, 0.98, 0.99, 1, 1.01, 1.02 };
+	double wartosci_bipolarne_2[10] = { -0.96, -0.97, -0.98, -0.99, -1 , 0.96, 0.97, 0.98, 0.99, 1 };
+
+	double ciagi_zblizone_unipolarne_1[100][3];
+	double ciagi_zblizone_unipolarne_2[100][3];
+	double ciagi_zblizone_bipolarne_1[100][3];
+	double ciagi_zblizone_bipolarne_2[100][3];
+
+	for ( int i = 0; i < 10; i++ )
+	{
+		for ( int j = 0; j < 10; j++ )
+		{
+			ciagi_zblizone_unipolarne_1[10 * i + j][0] = 1;
+			ciagi_zblizone_unipolarne_1[10 * i + j][1] = wartosci_unipolarne_1[i];
+			ciagi_zblizone_unipolarne_1[10 * i + j][2] = wartosci_unipolarne_1[j];
+
+			ciagi_zblizone_unipolarne_2[10 * i + j][0] = 1;
+			ciagi_zblizone_unipolarne_2[10 * i + j][1] = wartosci_unipolarne_2[i];
+			ciagi_zblizone_unipolarne_2[10 * i + j][2] = wartosci_unipolarne_2[j];
+
+			ciagi_zblizone_bipolarne_1[10 * i + j][0] = 1;
+			ciagi_zblizone_bipolarne_1[10 * i + j][1] = wartosci_bipolarne_1[i];
+			ciagi_zblizone_bipolarne_1[10 * i + j][2] = wartosci_bipolarne_1[j];
+
+			ciagi_zblizone_bipolarne_2[10 * i + j][0] = 1;
+			ciagi_zblizone_bipolarne_2[10 * i + j][1] = wartosci_bipolarne_2[i];
+			ciagi_zblizone_bipolarne_2[10 * i + j][2] = wartosci_bipolarne_2[j];
+		}
+	}
+	/*
+	for ( int i = 0; i < 100; i++ )
+	{
+		std::cout << i << ": " << ciagi_zblizone_unipolarne_1[i][0] << " " << ciagi_zblizone_unipolarne_1[i][1] << " " << ciagi_zblizone_unipolarne_1[i][2];
+		if ( ciagi_zblizone_unipolarne_1[i][1] > 0.5 && ciagi_zblizone_unipolarne_1[i][2] > 0.5 )
+		{
+			std::cout << " gr: 1\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1[i][1] > 0.5 && ciagi_zblizone_unipolarne_1[i][2] < 0.5 )
+		{
+			std::cout << " gr: 2\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1[i][1] < 0.5 && ciagi_zblizone_unipolarne_1[i][2] < 0.5 )
+		{
+			std::cout << " gr: 3\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1[i][1] < 0.5 && ciagi_zblizone_unipolarne_1[i][2] > 0.5 )
+		{
+			std::cout << " gr: 4\n";
+		}
+	}
+	*/
+
+	/*
+	std::cout << '\n';
+	for ( int i = 0; i < 7; i++ )
+	{
+		int pomocnnicza = pom.r_int ( 0, 25 );
+		int index = pomocnnicza + ( (int) ( pomocnnicza / 5 ) ) * 5 +55;
+		std::cout << "i==" << index << " || ";
+		
+		std::cout << index << ": " << ciagi_zblizone_unipolarne_1[index][0] << " " << ciagi_zblizone_unipolarne_1[index][1] << " " << ciagi_zblizone_unipolarne_1[index][2];
+		if ( ciagi_zblizone_unipolarne_1[index][1] > 0.5 && ciagi_zblizone_unipolarne_1[index][2] > 0.5 )
+		{
+			std::cout << " gr: 1\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1[index][1] > 0.5 && ciagi_zblizone_unipolarne_1[index][2] < 0.5 )
+		{
+			std::cout << " gr: 2\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1[index][1] < 0.5 && ciagi_zblizone_unipolarne_1[index][2] < 0.5 )
+		{
+			std::cout << " gr: 3\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1[index][1] < 0.5 && ciagi_zblizone_unipolarne_1[index][2] > 0.5 )
+		{
+			std::cout << " gr: 4\n";
+		}
+		
+	}
+	std::cout << '\n';
+*/
+	double **ciagi_zblizone_unipolarne_1_uczace= new double*[72];
+	double **ciagi_zblizone_unipolarne_1_walidacyjne = new double*[28];
+	double ciagi_zblizone_unipolarne_1_uczace_wyniki[72];
+	double ciagi_zblizone_unipolarne_1_walidacja_wyniki[28];
+
+	double **ciagi_zblizone_unipolarne_2_uczace = new double*[72];
+	double **ciagi_zblizone_unipolarne_2_walidacyjne = new double*[28];
+	double ciagi_zblizone_unipolarne_2_uczace_wyniki[72];
+	double ciagi_zblizone_unipolarne_2_walidacja_wyniki[28];
+
+	double **ciagi_zblizone_bipolarne_1_uczace = new double*[72];
+	double **ciagi_zblizone_bipolarne_1_walidacyjne = new double*[28];
+	double ciagi_zblizone_bipolarne_1_uczace_wyniki[72];
+	double ciagi_zblizone_bipolarne_1_walidacja_wyniki[28];
+
+	double **ciagi_zblizone_bipolarne_2_uczace = new double*[72];
+	double **ciagi_zblizone_bipolarne_2_walidacyjne = new double*[28];
+	double ciagi_zblizone_bipolarne_2_uczace_wyniki[72];
+	double ciagi_zblizone_bipolarne_2_walidacja_wyniki[28];
+
+	int licznik_pomocniczy = 0;
+	int licznik_pomocniczy_2 = 0;
 	
-	//std::cout << pom.r_db ( -1, 1 )<<"\n";
+	for ( int i = 0; i < 100; i++ )
+	{
+		if ( i==43|| i==13|| i==3|| i==21|| i==31|| i==4|| i==44 || i==19 || i==36 || i==46 || i==27 || i==26 || i==47 || i==5 || i==62 || i==50 || i==83 || i==93 || i==53 || i==81 || i==74 || i==85 || i==77 || i==66 || i==55 || i==69 || i==95 || i==59)
+		{
+			ciagi_zblizone_bipolarne_1_walidacyjne[licznik_pomocniczy_2] = new double[3];
+			ciagi_zblizone_bipolarne_1_walidacyjne[licznik_pomocniczy_2][0] = 1.0;
+			ciagi_zblizone_bipolarne_1_walidacyjne[licznik_pomocniczy_2][1] = ciagi_zblizone_bipolarne_1[i][1];
+			ciagi_zblizone_bipolarne_1_walidacyjne[licznik_pomocniczy_2][2] = ciagi_zblizone_bipolarne_1[i][2];
+
+			ciagi_zblizone_bipolarne_2_walidacyjne[licznik_pomocniczy_2] = new double[3];
+			ciagi_zblizone_bipolarne_2_walidacyjne[licznik_pomocniczy_2][0] = 1.0;
+			ciagi_zblizone_bipolarne_2_walidacyjne[licznik_pomocniczy_2][1] = ciagi_zblizone_bipolarne_2[i][1];
+			ciagi_zblizone_bipolarne_2_walidacyjne[licznik_pomocniczy_2][2] = ciagi_zblizone_bipolarne_2[i][2];
+
+			ciagi_zblizone_unipolarne_1_walidacyjne[licznik_pomocniczy_2] = new double[3];
+			ciagi_zblizone_unipolarne_1_walidacyjne[licznik_pomocniczy_2][0] = 1.0;
+			ciagi_zblizone_unipolarne_1_walidacyjne[licznik_pomocniczy_2][1] = ciagi_zblizone_unipolarne_1[i][1];
+			ciagi_zblizone_unipolarne_1_walidacyjne[licznik_pomocniczy_2][2] = ciagi_zblizone_unipolarne_1[i][2];
+
+			ciagi_zblizone_unipolarne_2_walidacyjne[licznik_pomocniczy_2] = new double[3];
+			ciagi_zblizone_unipolarne_2_walidacyjne[licznik_pomocniczy_2][0] = 1.0;
+			ciagi_zblizone_unipolarne_2_walidacyjne[licznik_pomocniczy_2][1] = ciagi_zblizone_unipolarne_2[i][1];
+			ciagi_zblizone_unipolarne_2_walidacyjne[licznik_pomocniczy_2][2] = ciagi_zblizone_unipolarne_2[i][2];
+			licznik_pomocniczy_2++;
+		}
+		else
+		{
+			ciagi_zblizone_bipolarne_1_uczace[licznik_pomocniczy]= new double[3];
+			ciagi_zblizone_bipolarne_1_uczace[licznik_pomocniczy][0] = 1.0;
+			ciagi_zblizone_bipolarne_1_uczace[licznik_pomocniczy][1] = ciagi_zblizone_bipolarne_1[i][1];
+			ciagi_zblizone_bipolarne_1_uczace[licznik_pomocniczy][2] = ciagi_zblizone_bipolarne_1[i][2];
+
+			ciagi_zblizone_bipolarne_2_uczace[licznik_pomocniczy] = new double[3];
+			ciagi_zblizone_bipolarne_2_uczace[licznik_pomocniczy][0] = 1.0;
+			ciagi_zblizone_bipolarne_2_uczace[licznik_pomocniczy][1] = ciagi_zblizone_bipolarne_2[i][1];
+			ciagi_zblizone_bipolarne_2_uczace[licznik_pomocniczy][2] = ciagi_zblizone_bipolarne_2[i][2];
+
+			ciagi_zblizone_unipolarne_1_uczace[licznik_pomocniczy] = new double[3];
+			ciagi_zblizone_unipolarne_1_uczace[licznik_pomocniczy][0] = 1.0;
+			ciagi_zblizone_unipolarne_1_uczace[licznik_pomocniczy][1] = ciagi_zblizone_unipolarne_1[i][1];
+			ciagi_zblizone_unipolarne_1_uczace[licznik_pomocniczy][2] = ciagi_zblizone_unipolarne_1[i][2];
+
+			ciagi_zblizone_unipolarne_2_uczace[licznik_pomocniczy] = new double[3];
+			ciagi_zblizone_unipolarne_2_uczace[licznik_pomocniczy][0] = 1.0;
+			ciagi_zblizone_unipolarne_2_uczace[licznik_pomocniczy][1] = ciagi_zblizone_unipolarne_2[i][1];
+			ciagi_zblizone_unipolarne_2_uczace[licznik_pomocniczy][2] = ciagi_zblizone_unipolarne_2[i][2];
+			licznik_pomocniczy++;
+		}
+	}
+	/*
+	std::cout << "\n";
+	for ( int i = 0; i < 72; i++ )
+	{
+		std::cout << i << ": " << ciagi_zblizone_unipolarne_1_uczace[i][0] << " " << ciagi_zblizone_unipolarne_1_uczace[i][1] << " " << ciagi_zblizone_unipolarne_1_uczace[i][2];
+		if ( ciagi_zblizone_unipolarne_1_uczace[i][1] > 0.5 && ciagi_zblizone_unipolarne_1_uczace[i][2] > 0.5 )
+		{
+			std::cout << " gr: 1\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1_uczace[i][1] > 0.5 && ciagi_zblizone_unipolarne_1_uczace[i][2] < 0.5 )
+		{
+			std::cout << " gr: 2\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1_uczace[i][1] < 0.5 && ciagi_zblizone_unipolarne_1_uczace[i][2] < 0.5 )
+		{
+			std::cout << " gr: 3\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1_uczace[i][1] < 0.5 && ciagi_zblizone_unipolarne_1_uczace[i][2] > 0.5 )
+		{
+			std::cout << " gr: 4\n";
+		}
+	}
+	std::cout << "\n";
+	for ( int i = 0; i < 28; i++ )
+	{
+		std::cout << i << ": " << ciagi_zblizone_unipolarne_1_walidacyjne[i][0] << " " << ciagi_zblizone_unipolarne_1_walidacyjne[i][1] << " " << ciagi_zblizone_unipolarne_1_walidacyjne[i][2];
+		if ( ciagi_zblizone_unipolarne_1_walidacyjne[i][1] > 0.5 && ciagi_zblizone_unipolarne_1_walidacyjne[i][2] > 0.5 )
+		{
+			std::cout << " gr: 1\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1_walidacyjne[i][1] > 0.5 && ciagi_zblizone_unipolarne_1_walidacyjne[i][2] < 0.5 )
+		{
+			std::cout << " gr: 2\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1_walidacyjne[i][1] < 0.5 && ciagi_zblizone_unipolarne_1_walidacyjne[i][2] < 0.5 )
+		{
+			std::cout << " gr: 3\n";
+		}
+		else if ( ciagi_zblizone_unipolarne_1_walidacyjne[i][1] < 0.5 && ciagi_zblizone_unipolarne_1_walidacyjne[i][2] > 0.5 )
+		{
+			std::cout << " gr: 4\n";
+		}
+	}*/
+	
+
+	for ( int i = 0; i < 72; i++ )
+	{
+		if ( ciagi_zblizone_unipolarne_1_uczace[i][1] > 0.5 && ciagi_zblizone_unipolarne_1_uczace[i][2] > 0.5 )
+			ciagi_zblizone_unipolarne_1_uczace_wyniki[i] = 1;
+		else 
+			ciagi_zblizone_unipolarne_1_uczace_wyniki[i] = 0;
+
+		if ( ciagi_zblizone_unipolarne_2_uczace[i][1] > 0.5 && ciagi_zblizone_unipolarne_2_uczace[i][2] > 0.5 )
+			ciagi_zblizone_unipolarne_2_uczace_wyniki[i] = 1;
+		else
+			ciagi_zblizone_unipolarne_2_uczace_wyniki[i] = 0;
+
+		if ( ciagi_zblizone_bipolarne_1_uczace[i][1] > 0.5 && ciagi_zblizone_bipolarne_1_uczace[i][2] > 0.5 )
+			ciagi_zblizone_bipolarne_1_uczace_wyniki[i] = 1;
+		else
+			ciagi_zblizone_bipolarne_1_uczace_wyniki[i] = -1;
+
+		if ( ciagi_zblizone_bipolarne_2_uczace[i][1] > 0.5 && ciagi_zblizone_bipolarne_2_uczace[i][2] > 0.5 )
+			ciagi_zblizone_bipolarne_2_uczace_wyniki[i] = 1;
+		else
+			ciagi_zblizone_bipolarne_2_uczace_wyniki[i] = -1;
+	}
+
+	//std::cout << "\n";
+	for ( int i = 0; i < 28; i++ )
+	{
+		if ( ciagi_zblizone_unipolarne_1_walidacyjne[i][1] > 0.5 && ciagi_zblizone_unipolarne_1_walidacyjne[i][2] > 0.5 )
+			ciagi_zblizone_unipolarne_1_walidacja_wyniki[i] = 1;
+		else
+			ciagi_zblizone_unipolarne_1_walidacja_wyniki[i] = 0;
+
+		if ( ciagi_zblizone_unipolarne_2_walidacyjne[i][1] > 0.5 && ciagi_zblizone_unipolarne_2_walidacyjne[i][2] > 0.5 )
+			ciagi_zblizone_unipolarne_2_walidacja_wyniki[i] = 1;
+		else
+			ciagi_zblizone_unipolarne_2_walidacja_wyniki[i] = 0;
+
+		if ( ciagi_zblizone_bipolarne_1_walidacyjne[i][1] > 0.5 && ciagi_zblizone_bipolarne_1_walidacyjne[i][2] > 0.5 )
+			ciagi_zblizone_bipolarne_1_walidacja_wyniki[i] = 1;
+		else
+			ciagi_zblizone_bipolarne_1_walidacja_wyniki[i] = -1;
+
+		if ( ciagi_zblizone_bipolarne_2_walidacyjne[i][1] > 0.5 && ciagi_zblizone_bipolarne_2_walidacyjne[i][2] > 0.5 )
+			ciagi_zblizone_bipolarne_2_walidacja_wyniki[i] = 1;
+		else
+			ciagi_zblizone_bipolarne_2_walidacja_wyniki[i] = -1;
+	}
+
+	/*for ( int i = 0; i < 28; i++ )
+	{
+		std::cout << ciagi_zblizone_bipolarne_2_walidacyjne[i][1] << " " << ciagi_zblizone_bipolarne_2_walidacyjne[i][2] << " = " << ciagi_zblizone_bipolarne_2_walidacja_wyniki[i] << '\n';
+	}
+	for ( int i = 0; i < 72; i++ )
+	{
+		std::cout << ciagi_zblizone_unipolarne_2_uczace[i][1] << " " << ciagi_zblizone_unipolarne_2_uczace[i][2] << " = " << ciagi_zblizone_unipolarne_2_uczace_wyniki[i] << '\n';
+	}*/
 
 	if ( 0 ) //perceptron bipolarny xor
 	{
 		std::cout << "perceptron bipolarny\n";
 		bi =new Neuron ( 3, 0.2, -0.01, 0.01 );
-		bi->epoki_srednia_bl_wali ( ciag_bipolar_xor, ciag_wynikow_xor_bipolar, ile_ciagow, 0.5, 100, ciag_bipolar_xor, ciag_wynikow_xor_bipolar);
+		bi->epoki_srednia_bl_wali ( ciag_bipolar_xor, ciag_wynikow_xor_bipolar, ile_ciagow, 0.5, 100, ciag_bipolar_xor, ciag_wynikow_xor_bipolar,4);
 		bi->test ( a, b );
 		std::cout << "\n";
 		delete bi;
@@ -99,19 +352,20 @@ int main()
 		std::cout << "perceptron bipolarny\n";
 		bi= new Neuron(3, 0.9, -1, 1);
 		//bi.epoki(ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0);
-		bi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0, 100, ciag_bipolar_walidacja, ciag_wynikow_bipolar_walidacja );
+		//bi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0, 100, ciag_bipolar_walidacja, ciag_wynikow_bipolar_walidacja,4 );
+		bi->epoki_srednia_bl_wali ( ciagi_zblizone_bipolarne_1_uczace, ciagi_zblizone_bipolarne_1_uczace_wyniki, 72, 0, 100, ciagi_zblizone_bipolarne_1_walidacyjne, ciagi_zblizone_bipolarne_1_walidacja_wyniki, 28 );
 		bi->test(a, b);
 		std::cout << "\n";
 		delete bi;
 	}
-	if (0) //adeline bipolarny
+	if (1) //adeline bipolarny
 	{
 		std::cout << "adeline bipolarny\n";
 		Abi = new Adeline_bi(3, 0.01 , -0.01, 0.01);
 		//Abi.epoki(ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0.2);
 		//Abi.epoki_srednia_bl(ciag_bipolar, ciag_wynikow_bipolar, ile_ciagow, 0.4, 500);
-		Abi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, 200, ciag_bipolar_walidacja, ciag_wynikow_bipolar_walidacja );
-
+		//Abi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, 200, ciag_bipolar_walidacja, ciag_wynikow_bipolar_walidacja,4 );
+		Abi->epoki_srednia_bl_wali ( ciagi_zblizone_bipolarne_1_uczace, ciagi_zblizone_bipolarne_1_uczace_wyniki, 72, 0, 100, ciagi_zblizone_bipolarne_1_walidacyjne, ciagi_zblizone_bipolarne_1_walidacja_wyniki, 28 );
 		Abi->test(a, b);
 		std::cout << "\n";
 		delete Abi;
@@ -134,8 +388,8 @@ int main()
 		std::cout << "perceptron unipolarny\n";
 		uni= new Unipolar(3, 0.2, -0.01, 0.01);
 		//uni.epoki(ciag_unipolar, ciag_wynikow_unipolar, ile_ciagow, 0);
-		uni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, 50, ciag_unipolar_walidacja, ciag_wynikow_unipolar_walidacja );
-
+		//uni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, 50, ciag_unipolar_walidacja, ciag_wynikow_unipolar_walidacja,4 );
+		uni->epoki_srednia_bl_wali ( ciagi_zblizone_unipolarne_1_uczace, ciagi_zblizone_unipolarne_1_uczace_wyniki, 72, 0, 100, ciagi_zblizone_unipolarne_1_walidacyjne, ciagi_zblizone_unipolarne_1_walidacja_wyniki, 28 );
 		std::cout << "\n";
 		uni->test(a, b);
 		delete uni;
@@ -144,16 +398,23 @@ int main()
 	if (0) //adeline unipolarny
 	{
 		std::cout << "adeline unipolarny\n";
-		Auni = new Adeline_uni(3, 0.2, 1, 1);
+		Auni = new Adeline_uni(3, 0.2, -1, 1);
+		std::cout << "\n";
 		//Auni.epoki(ciag_unipolar, ciag_wynikow_unipolar, ile_ciagow, 0.10);
 		//Auni.epoki_srednia_bl(ciag_unipolar, ciag_wynikow_unipolar, ile_ciagow, 0.2, 100);
-		Auni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, 100, ciag_unipolar, ciag_wynikow_unipolar);
 
+		std::streambuf* cout_sbuf = std::cout.rdbuf ();
+		//std::cout.rdbuf ( NULL );
+		//int epoki_pomoc=Auni->epoki_srednia_bl_wali ( ciagi_zblizone_unipolarne_1_uczace, ciagi_zblizone_unipolarne_1_uczace_wyniki, 72, 0, 100, ciagi_zblizone_unipolarne_1_walidacyjne, ciagi_zblizone_unipolarne_1_walidacja_wyniki, 28 );
+		int epoki_pomoc= Auni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, 50, ciag_unipolar, ciag_wynikow_unipolar, 4 );
+		std::cout.rdbuf ( cout_sbuf );
+		std::cout << "\n";
+		std::cout << epoki_pomoc;
 		std::cout << "\n";
 		Auni->test(a, b);
 		delete Auni;
 	}
-	if ( 1 ) //badania z srednia i wariancja
+	if ( 0 ) //badania z srednia i wariancja
 	{
 		std::streambuf* cout_sbuf = std::cout.rdbuf ();
 		std::cout.rdbuf ( NULL );
@@ -178,7 +439,7 @@ int main()
 		double nie_naucz_abi[ilosc_war_uczacych][ilosc_war_max]; 
 		double nie_naucz_auni[ilosc_war_uczacych][ilosc_war_max];
 
-		int ilosc_powt = 10000;
+		int ilosc_powt = 100;
 
 		double* ilosc_epok_w_powtorzeniu_bi = new double[ilosc_powt] ();
 		double* ilosc_epok_w_powtorzeniu_uni = new double[ilosc_powt] ();
@@ -186,7 +447,7 @@ int main()
 		double* ilosc_epok_w_powtorzeniu_auni = new double[ilosc_powt] ();
 
 		int ile_max_epok = 10000;
-
+		double max_blad = 0;
 		for ( int i = 0; i < ilosc_war_uczacych; i++ )
 		{
 			for ( int j = 0; j < ilosc_war_max; j++ )
@@ -209,16 +470,16 @@ int main()
 				nie_naucz_abi[i][j] = 0;
 				nie_naucz_auni[i][j] = 0;
 
-				
 
 				for ( int k = 0; k < ilosc_powt; k++ )
 				{
-
 					if ( 1 )
 					{
 						uni = new Unipolar(3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j]);
 						//ilosc_epok_w_powtorzeniu_uni[k] = uni.epoki ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0  );
-						ilosc_epok_w_powtorzeniu_uni[k] = uni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, ile_max_epok, ciag_unipolar, ciag_wynikow_unipolar );
+						ilosc_epok_w_powtorzeniu_uni[k] = uni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, ile_max_epok, ciag_unipolar, ciag_wynikow_unipolar,4 );
+						//ilosc_epok_w_powtorzeniu_uni[k] = uni->epoki_srednia_bl_wali ( ciagi_zblizone_unipolarne_2_uczace, ciagi_zblizone_unipolarne_2_uczace_wyniki, 72, max_blad, ile_max_epok, ciagi_zblizone_unipolarne_2_walidacyjne, ciagi_zblizone_unipolarne_2_walidacja_wyniki, 28 );
+
 						if ( ile_max_epok == ilosc_epok_w_powtorzeniu_uni[k] )
 						{
 							nie_naucz_uni[i][j]++;
@@ -230,7 +491,9 @@ int main()
 					{
 						bi = new Neuron(3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j]);
 						//ilosc_epok_w_powtorzeniu_bi[k] = bi.epoki ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0 );
-						ilosc_epok_w_powtorzeniu_bi[k]= bi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, ile_max_epok, ciag_bipolar, ciag_wynikow_bipolar );
+						ilosc_epok_w_powtorzeniu_bi[k]= bi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, ile_max_epok, ciag_bipolar, ciag_wynikow_bipolar,4 );
+						//ilosc_epok_w_powtorzeniu_bi[k] = bi->epoki_srednia_bl_wali ( ciagi_zblizone_bipolarne_2_uczace, ciagi_zblizone_bipolarne_2_uczace_wyniki, 72, max_blad, ile_max_epok, ciagi_zblizone_bipolarne_2_walidacyjne, ciagi_zblizone_bipolarne_2_walidacja_wyniki, 28 );
+
 						if ( ile_max_epok == ilosc_epok_w_powtorzeniu_bi[k] )
 						{
 							nie_naucz_bi[i][j]++;
@@ -245,7 +508,8 @@ int main()
 					{
 						Auni = new Adeline_uni ( 3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j] );
 						//ilosc_epok_w_powtorzeniu_auni[k] = Auni.epoki_srednia_bl ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0.2, 100 );
-						ilosc_epok_w_powtorzeniu_auni[k] = Auni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, ile_max_epok, ciag_unipolar, ciag_wynikow_unipolar );
+						ilosc_epok_w_powtorzeniu_auni[k] = Auni->epoki_srednia_bl_wali ( ciag_unipolar, ciag_wynikow_unipolar, 4, 0, ile_max_epok, ciag_unipolar, ciag_wynikow_unipolar,4 );
+						//ilosc_epok_w_powtorzeniu_auni[k] = Auni->epoki_srednia_bl_wali ( ciagi_zblizone_unipolarne_2_uczace, ciagi_zblizone_unipolarne_2_uczace_wyniki, 72, max_blad, ile_max_epok, ciagi_zblizone_unipolarne_2_walidacyjne, ciagi_zblizone_unipolarne_2_walidacja_wyniki, 28 );
 						if ( ile_max_epok == ilosc_epok_w_powtorzeniu_auni[k] )
 						{
 							nie_naucz_auni[i][j]++;
@@ -258,7 +522,8 @@ int main()
 					{
 						Abi =new Adeline_bi(3, wartosci_uczace[i], -wartosci_max[j], wartosci_max[j]);
 						//ilosc_epok_w_powtorzeniu_abi[k] = Abi.epoki_srednia_bl ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0.4, 100 );
-						ilosc_epok_w_powtorzeniu_abi[k] = Abi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, ile_max_epok, ciag_bipolar, ciag_wynikow_bipolar );
+						ilosc_epok_w_powtorzeniu_abi[k] = Abi->epoki_srednia_bl_wali ( ciag_bipolar, ciag_wynikow_bipolar, 4, 0, ile_max_epok, ciag_bipolar, ciag_wynikow_bipolar, 4 );
+						//ilosc_epok_w_powtorzeniu_abi[k] = Abi->epoki_srednia_bl_wali ( ciagi_zblizone_bipolarne_2_uczace, ciagi_zblizone_bipolarne_2_uczace_wyniki, 72, max_blad, ile_max_epok, ciagi_zblizone_bipolarne_2_walidacyjne, ciagi_zblizone_bipolarne_2_walidacja_wyniki, 28 );
 						if ( ile_max_epok == ilosc_epok_w_powtorzeniu_abi[k] )
 						{
 							nie_naucz_abi[i][j]++;

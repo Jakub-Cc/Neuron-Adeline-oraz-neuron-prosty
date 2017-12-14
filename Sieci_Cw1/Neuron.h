@@ -27,7 +27,7 @@ public:
 	virtual double uczenie(double *wejscie, double oczekiwane, double zakres_bledu);			//trzeba przeciazyc dla adeline
 	int epoki(double **wejscie, double * oczekiwane, int ile_ciagow, double zakres_bledu);
 	int epoki_srednia_bl(double **wejscie, double * oczekiwane, int ile_ciagow, double zakres_bledu, int max_epok);
-	int Neuron::epoki_srednia_bl_wali ( double ** wejscie, double * oczekiwane, int ile_ciagow, double zakres_bledu, int max_epok, double ** walidacja, double * walidacja_oczekiwane );
+	int Neuron::epoki_srednia_bl_wali ( double ** wejscie, double * oczekiwane, int ile_ciagow, double zakres_bledu, int max_epok, double ** walidacja, double * walidacja_oczekiwane, int ile_ciagow_walidacyjnych );
 	virtual void test(double a, double b); //trzeba preciazyc dla kazdego (bipolarnego/ unipolarnego)
 
 };
